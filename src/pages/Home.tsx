@@ -2,9 +2,10 @@ import { Link } from 'react-router-dom';
 import {
   ArrowRight,
   HardHat,
+  Layers,
   ShieldCheck,
-  ShieldLock,
   Truck,
+  type LucideIcon,
 } from 'lucide-react';
 
 import { ActionLink } from '../components/common/ActionLink';
@@ -33,6 +34,42 @@ const buttonPrimary = `${buttonBase} bg-rust text-paper shadow-[0_1px_0_rgba(255
 const buttonDark = `${buttonBase} bg-ink text-paper shadow-[0_1px_0_rgba(255,255,255,0.08)_inset,0_6px_16px_-8px_rgba(28,27,24,0.5)] hover:bg-charcoal-2`;
 
 const buttonOutline = `${buttonBase} bg-transparent text-ink border-border shadow-none hover:border-ink hover:-translate-y-0`;
+
+type DifferenceCard = {
+  index: string;
+  title: string;
+  text: string;
+  icon: LucideIcon;
+  image: string;
+  to: string;
+};
+
+const differenceCards: DifferenceCard[] = [
+  {
+    index: '01',
+    title: 'Multiple TMT & Steel Options',
+    text: 'Compare bar sizes and grades for your slab, column or foundation work.',
+    icon: HardHat,
+    image: rod2,
+    to: '/products/tata-tiscon-tmt', // change to your steel/TMT route
+  },
+  {
+    index: '02',
+    title: 'Multiple Cement Brands',
+    text: 'Ask for the brands currently in stock and pick what suits your build.',
+    icon: Layers,
+    image: cement,
+    to: '/products', // change to your cement route
+  },
+  {
+    index: '03',
+    title: 'Construction Aggregates',
+    text: 'Sand, stone chips and aggregates, planned around your delivery schedule.',
+    icon: Truck,
+    image: aggregates,
+    to: '/products', // change to your aggregates route
+  },
+];
 
 export function Home() {
   const schema = {
@@ -226,77 +263,105 @@ export function Home() {
             </p>
           </div>
 
-          <div className="grid bg-border border border-bs-accent-foreground xl:grid-cols-[1.3fr_1fr_1fr_1fr] rounded-2xl">
-            <div className="relative bg-paper bg-cover p-7 flex flex-col rounded-2xl justify-between transition-shadow hover:shadow-[0_24px_48px_-28px_rgba(28,27,24,0.28)] hover:z-1 bg-[linear-gradient(to_top,rgba(0,0,0,0.85)_10%,rgba(0,0,0,0.35)_55%,rgba(0,0,0,0.15)_100%),url('https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcTHDm9LbEb_NHnuk9PDV8EtvBTRn6KvcDr8Xaa70FxMlJmSW4_-p4u5IGsQd47At9kwOjPk1T4cNDPNZbkR7_7u13khZDNYyg')]">
-              <div className="relative z-1 rounded-2xl">
-                <div className="relative z-1 w-8 h-8 flex items-center justify-center rounded-full border border-border-dark text-amber ml-26 mb-6">
-                  <ShieldCheck size={28} />
-                </div>
+          <div className="grid gap-5 lg:grid-cols-[1.25fr_1fr_1fr_1fr]">
+            {/* Featured card */}
+            <div className="relative overflow-hidden rounded-xl bg-charcoal text-paper p-8 flex flex-col justify-between min-h-[460px] shadow-[0_30px_60px_-30px_rgba(28,27,24,0.55)]">
+              {/* decorative rebar, kept subtle so text stays readable */}
+              <img
+                src={rod}
+                alt=""
+                aria-hidden="true"
+                className="pointer-events-none absolute -right-10 -bottom-6 w-[85%] opacity-[0.16] -rotate-12 select-none"
+              />
+              <div className="absolute inset-x-0 top-0 h-1 bg-[repeating-linear-gradient(90deg,var(--color-rust)_0_2px,transparent_2px_14px)] opacity-70" />
 
-                <h3 className="mt-8 mb-3.5 ">
-                  Authorized Tata Tiscon Dealer
+              <div className="relative">
+                <span className="inline-flex items-center gap-2 rounded-full border border-border-dark px-3 py-1.5 font-mono text-[0.72rem] text-amber">
+                  <ShieldCheck size={14} />
+                  Authorized dealer
+                </span>
+
+                <h3 className="mt-6 mb-4 font-display font-bold text-[1.7rem] leading-tight tracking-[-0.01em] text-paper">
+                  Tata Tiscon,
+                  <br />
+                  straight from a
+                  <br />
+                  trusted dealer.
                 </h3>
 
-                <p className="relative z-1 text-sm text-paper  rounded-md px-0">
+                <p className="text-[0.92rem] leading-relaxed text-slate-mist max-w-[32ch]">
                   Ask about Tata Tiscon TMT bars and binding wire
                   alongside your other construction requirements.
                 </p>
+
+                <ul className="mt-6 space-y-2 text-[0.88rem] text-paper/90">
+                  {['TMT bars', 'Binding wire'].map((item) => (
+                    <li key={item} className="flex items-center gap-2.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-rust" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </div>
 
               <Link
                 to="/products/tata-tiscon-tmt"
-                className={`${buttonDark} relative z-[1] self-start mt-7`}
+                className={`${buttonPrimary} relative self-start mt-8`}
               >
                 Explore Tata Tiscon
                 <ArrowRight size={15} />
               </Link>
             </div>
 
-            {[
-              [
-                'Multiple TMT & Steel Options',
-                HardHat,
-                rod2,
-              ],
-              [
-                'Multiple Cement Brands',
-                ShieldLock,
-                'https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcT_LFpb71FQ8UZMcGxSjHQbYnFhOss74B_9e3Vtutzryt4Q1PkCpyh8FzpktqZLFCPVfuGeZmf4W_bXew9SEAVs42d_bEtSxz_SMQkuVj0wJuLxCiqnVweZ',
-              ],
-              [
-                'Construction Aggregates',
-                Truck,
-                'https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcT_LFpb71FQ8UZMcGxSjHQbYnFhOss74B_9e3Vtutzryt4Q1PkCpyh8FzpktqZLFCPVfuGeZmf4W_bXew9SEAVs42d_bEtSxz_SMQkuVj0wJuLxCiqnVweZ',
-              ],
-            ].map(([title, Icon, imageSrc], index) => {
-              const IconComponent = Icon as typeof HardHat;
-
-              return (
-                <div
-                  className="bg-paper p-7 flex flex-col justify-between relative transition-shadow hover:shadow-[0_24px_48px_-28px_rgba(28,27,24,0.28)] hover:z-[1]"
-                  key={index}
+            {/* Three matching cards */}
+            {differenceCards.map(
+              ({ index, title, text, icon: Icon, image, to }) => (
+                <article
+                  key={title}
+                  className="group flex flex-col overflow-hidden rounded-xl border border-border bg-paper transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_24px_48px_-28px_rgba(28,27,24,0.35)]"
                 >
-                  <div className="mb-5 h-40 w-full overflow-hidden rounded-lg">
+                  {/* fixed-height image well = every card lines up */}
+                  <div className="flex h-44 items-center justify-center border-b border-border bg-white p-5">
                     <img
-                      src={imageSrc as string}
-                      alt={title as string}
-                      className="w-90% h-90% object-contain"
+                      src={image}
+                      alt={title}
+                      className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105"
+                      loading="lazy"
                     />
                   </div>
 
-                  <div className="inline-flex items-center justify-center w-11 h-11 rounded-full border border-border-dark text-rust mb-5">
-                    <IconComponent size={17} />
+                  <div className="flex flex-1 flex-col p-6">
+                    <div className="mb-5 flex items-center justify-between">
+                      <span className="font-mono text-[0.72rem] text-rust">
+                        {index}
+                      </span>
+                      <span className="flex h-10 w-10 items-center justify-center rounded-full bg-rust/10 text-rust transition-colors group-hover:bg-rust group-hover:text-paper">
+                        <Icon size={17} />
+                      </span>
+                    </div>
+
+                    <h3 className="mb-2 min-h-[3.1rem] font-display font-bold text-[1.08rem] leading-snug text-ink">
+                      {title}
+                    </h3>
+
+                    <p className="text-[0.9rem] leading-relaxed text-steel">
+                      {text}
+                    </p>
+
+                    <Link
+                      to={to}
+                      className="mt-auto inline-flex items-center gap-2 pt-6 text-[0.86rem] font-semibold text-ink transition-colors group-hover:text-rust"
+                    >
+                      Enquire
+                      <ArrowRight
+                        size={14}
+                        className="transition-transform group-hover:translate-x-1"
+                      />
+                    </Link>
                   </div>
-
-                  <h3>{title as string}</h3>
-
-                  <p>
-                    Discuss your current site requirement and
-                    availability.
-                  </p>
-                </div>
-              );
-            })}
+                </article>
+              ),
+            )}
           </div>
         </div>
       </section>
