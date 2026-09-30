@@ -69,7 +69,7 @@ export function Header() {
     const onScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          setScrolled(window.scrollY > 12);
+          setScrolled(window.scrollY > 120);
           ticking = false;
         });
         ticking = true;
@@ -86,12 +86,12 @@ export function Header() {
       {/* =====================================================
           UTILITY BAR
       ====================================================== */}
-      <div
+      {/* <div
         className={`overflow-hidden bg-[#0f2444] text-paper transition-[max-height,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-[max-height,opacity] ${
           scrolled ? 'max-h-0 opacity-0' : 'max-h-10 opacity-100'
         }`}
-      >
-        <div className="w-full max-w-[1180px] mx-auto px-4 sm:px-6 md:px-12 h-9 flex items-center justify-between gap-3 font-mono text-[0.68rem] sm:text-[0.72rem] tracking-wide">
+      > */}
+        {/* <div className="w-full max-w-[1180px] mx-auto px-4 sm:px-6 md:px-12 h-9 flex items-center justify-between gap-3 font-mono text-[0.68rem] sm:text-[0.72rem] tracking-wide">
           <div className="flex items-center gap-1.5 text-amber min-w-0">
             <span className="w-1.5 h-1.5 rounded-full bg-amber shrink-0 shadow-[0_0_0_3px_rgba(214,163,57,0.25)]" />
             <span className="hidden sm:inline truncate">
@@ -115,7 +115,7 @@ export function Header() {
             </ActionLink>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* =====================================================
           MAIN HEADER
@@ -129,7 +129,7 @@ export function Header() {
       >
         <div
           className={`w-full max-w-[1180px] mx-auto px-4 sm:px-6 md:px-12 flex items-center justify-between gap-2 sm:gap-6 transition-[height] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-[height] ${
-            scrolled ? 'h-[66px]' : 'h-[80px] sm:h-[88px]'
+            'h-[76px]'
           }`}
         >
           {/* =================================================
