@@ -1,4 +1,5 @@
 
+import { PHONE_E164 } from '../lib/contact';
 import {
   Component,
   type ComponentType,
@@ -42,30 +43,46 @@ function DefaultFallback({
   resetError,
 }: ErrorFallbackProps) {
   return (
-    <main className="min-h-screen w-full flex items-center justify-center bg-gray-50 p-6">
+    <main className="min-h-screen w-full flex items-center justify-center bg-paper p-6">
       <div className="w-full max-w-lg text-center">
-        <h1 className="text-xl font-semibold text-gray-900">
+        <h1 className="font-display text-2xl font-bold text-ink">
           Something went wrong
         </h1>
 
-        <p className="mt-2 text-sm text-gray-600">
-          This part of the app encountered an error.
-          Please try again.
+        <p className="mt-2 text-sm text-steel">
+          This page hit an unexpected problem. You can try again, or reach
+          us directly and we will help you right away.
         </p>
 
         {import.meta.env.DEV && (
-          <pre className="mt-4 overflow-x-auto rounded bg-gray-100 p-3 text-left text-xs text-gray-800">
+          <pre className="mt-4 overflow-x-auto rounded bg-panel border border-border p-3 text-left text-xs text-ink">
             {error.message || String(error)}
           </pre>
         )}
 
-        <button
-          type="button"
-          onClick={resetError}
-          className="mt-4 rounded bg-gray-900 px-4 py-2 text-sm text-white hover:bg-gray-700"
-        >
-          Try again
-        </button>
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+          <button
+            type="button"
+            onClick={resetError}
+            className="rounded-sm bg-rust px-5 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-rust-dark cursor-pointer"
+          >
+            Try again
+          </button>
+
+          <a
+            href="/"
+            className="rounded-sm border border-border px-5 py-3 text-sm font-semibold text-ink transition-colors hover:border-ink"
+          >
+            Go to home
+          </a>
+
+          <a
+            href={`tel:${PHONE_E164}`}
+            className="rounded-sm border border-border px-5 py-3 text-sm font-semibold text-ink transition-colors hover:border-ink"
+          >
+            Call us
+          </a>
+        </div>
       </div>
     </main>
   );

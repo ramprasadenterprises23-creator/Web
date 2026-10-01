@@ -1,43 +1,65 @@
 import type { AnchorHTMLAttributes, ReactNode } from 'react';
 
 import {
-  PHONE_NUMBER,
-  WHATSAPP_NUMBER,
+  DIRECTIONS_URL,
   ENQUIRY_TEXT,
+  PHONE_E164,
+  whatsappUrl,
 } from '../../lib/contact';
+
+type ActionKind = 'call' | 'whatsapp' | 'directions' | 'enquiry';
 
 interface ActionLinkProps
   extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> {
-  kind: 'call' | 'whatsapp' | 'enquiry';
+  /** `enquiry` is kept as an alias of `directions` for older call sites. */
+  kind: ActionKind;
+  /** Pre-filled WhatsApp text (whatsapp only). */
+  message?: string;
   children: ReactNode;
 }
 
-function getHref(kind: ActionLinkProps['kind']) {
+function getHref(kind: ActionKind, message?: string) {
   switch (kind) {
     case 'call':
-      return `tel:${PHONE_NUMBER}`;
-
+      return `tel:${PHONE_E164}`;
     case 'whatsapp':
-      return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-        ENQUIRY_TEXT,
-      )}`;
-
+      return whatsappUrl(message ?? ENQUIRY_TEXT);
+    case 'directions':
     case 'enquiry':
-      return 'https://www.google.com/maps/dir//M%2Fs+RAMPRASAD+ENTERPRISES,+Pradyuatnagar,+Dosinga,+Pradyutanagar,+Odisha+756171/@22.0430336,88.064,6148m/data=!3m1!1e3!4m8!4m7!1m0!1m5!1m1!1s0x3a1b77ecf4e8b789:0xd2ebcc03cba08e33!2m2!1d86.9459455!2d20.811977?entry=ttu&g_ep=EgoyMDI2MDkxNS4wIKXMDSoASAFQAw%3D%3D';
-
+      return DIRECTIONS_URL;
     default:
       return '#';
   }
 }
 
+/** Fires an analytics event if GA4 / GTM is installed; harmless otherwise. */
+function track(kind: ActionKind) {
+  if (typeof window === 'undefined') return;
+  const w = window as unknown as {
+    gtag?: (...args: unknown[]) => void;
+    dataLayer?: unknown[];
+  };
+  w.gtag?.('event', `click_${kind}`, { event_category: 'lead' });
+  w.dataLayer?.push({ event: `click_${kind}` });
+}
+
 export function ActionLink({
   kind,
+  message,
   children,
+  onClick,
   ...props
 }: ActionLinkProps) {
+  const external = kind !== 'call';
+
   return (
     <a
-      href={getHref(kind)}
+      href={getHref(kind, message)}
+      {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+      onClick={(event) => {
+        track(kind);
+        onClick?.(event);
+      }}
       {...props}
     >
       {children}

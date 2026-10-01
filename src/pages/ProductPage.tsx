@@ -8,14 +8,15 @@ import { LocalCta } from '../components/common/LocalCta';
 import { Meta } from '../components/common/Meta';
 import { PageHero } from '../components/common/PageHero';
 import { productDetails, productDetailsBySlug } from '../data/productDetails';
+import { NotFound } from './NotFound';
 
 const eyebrowClasses =
   "inline-flex items-center gap-2 text-rust mb-4 before:content-[''] before:w-3.5 before:h-px before:bg-rust";
 const buttonBase =
   'inline-flex items-center justify-center gap-2.5 text-[0.92rem] font-semibold px-6 py-3.5 rounded-sm border border-transparent transition-[background-color,transform,box-shadow] active:translate-y-0 hover:-translate-y-px';
-const buttonPrimary = `${buttonBase} bg-rust text-paper shadow-[0_1px_0_rgba(255,255,255,0.12)_inset,0_6px_16px_-8px_rgba(181,69,29,0.55)] hover:bg-rust-dark`;
-const buttonDark = `${buttonBase} bg-ink text-paper shadow-[0_1px_0_rgba(255,255,255,0.08)_inset,0_6px_16px_-8px_rgba(28,27,24,0.5)] hover:bg-charcoal-2`;
-const buttonOutline = `${buttonBase} bg-transparent text-paper border-border-dark shadow-none hover:border-paper hover:-translate-y-0`;
+const buttonPrimary = `${buttonBase} bg-rust text-primary-foreground shadow-[0_1px_0_rgba(255,255,255,0.12)_inset,0_6px_16px_-8px_rgba(181,69,29,0.55)] hover:bg-rust-dark btn-shine`;
+const buttonDark = `${buttonBase} bg-ink text-paper shadow-[0_1px_0_rgba(255,255,255,0.08)_inset,0_6px_16px_-8px_rgba(0,0,0,0.5)] hover:bg-charcoal-2 dark:bg-charcoal-2 dark:text-cream dark:border-border-dark dark:hover:border-amber dark:hover:bg-charcoal`;
+const buttonOutline = `${buttonBase} bg-transparent text-cream border-border-dark shadow-none hover:border-cream hover:-translate-y-0`;
 
 const defaultVariants = [
   { id: 'opc-43', label: 'OPC 43 Grade', hint: 'General construction' },
@@ -31,8 +32,8 @@ const defaultBagSizes = [
 export function ProductPage() {
   const { slug = 'tmt-steel' } = useParams<{ slug: string }>();
 
-  const product =
-    productDetailsBySlug[slug] ?? productDetailsBySlug['tmt-steel'];
+  const found = productDetailsBySlug[slug];
+  const product = found ?? productDetailsBySlug['tmt-steel'];
 
   const description = `${product.title} from M/s Ramprasad Enterprises in Dosinga, Dhamara, Bhadrak. Ask about types, uses and current availability.`;
 
@@ -48,12 +49,23 @@ export function ProductPage() {
   const [selectedSize, setSelectedSize] = useState(sizes[0]?.id);
   const [quantity, setQuantity] = useState(1);
 
+  if (!found) return <NotFound />;
+
+  // Encoded query string (titles contain & and spaces) read by the contact form
+  const enquiryQuery = new URLSearchParams({
+    product: product.title,
+    type: String(selectedVariant ?? ''),
+    size: String(selectedSize ?? ''),
+    qty: String(quantity),
+  }).toString();
+
   return (
     <>
       {/* SEO */}
       <Meta
         title={`${product.title} | M/s Ramprasad Enterprises, Dosinga`}
         description={description}
+        image={typeof product.image === 'string' ? product.image : undefined}
       />
 
       {/* Hero */}
@@ -116,7 +128,7 @@ export function ProductPage() {
                     >
                       {active && (
                         <span className="absolute top-2.5 right-2.5 w-4 h-4 rounded-full bg-rust flex items-center justify-center">
-                          <Check size={11} className="text-paper" />
+                          <Check size={11} className="text-primary-foreground" />
                         </span>
                       )}
                       <span className="block text-[0.9rem] font-semibold text-ink pr-5">
@@ -145,7 +157,7 @@ export function ProductPage() {
                       onClick={() => setSelectedSize(s.id)}
                       className={`px-5 py-2.5 rounded-full border text-[0.88rem] font-medium transition-colors ${
                         active
-                          ? 'border-rust bg-rust text-paper'
+                          ? 'border-rust bg-rust text-primary-foreground'
                           : 'border-border text-ink hover:border-steel'
                       }`}
                     >
@@ -195,7 +207,7 @@ export function ProductPage() {
 
             <div className="mt-9">
               <Link
-                to={`/contact?product=${product.title}&type=${selectedVariant}&size=${selectedSize}&qty=${quantity}`}
+                to={`/contact?${enquiryQuery}`}
                 className={buttonPrimary}
               >
                 Ask for availability
@@ -221,7 +233,7 @@ export function ProductPage() {
                         to={`/products/${p.slug}`}
                         className={`flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-sm text-[0.88rem] transition-colors ${
                           active
-                            ? 'bg-rust text-paper font-semibold'
+                            ? 'bg-rust text-primary-foreground font-semibold'
                             : 'text-ink hover:bg-border/40'
                         }`}
                       >
@@ -255,21 +267,21 @@ export function ProductPage() {
                 Enquiry desk
               </div>
 
-              <h3 className="text-paper my-2 mb-3 text-[1.2rem]">
+              <h3 className="text-cream my-2 mb-3 text-[1.2rem]">
                 Let's make the next step clear.
               </h3>
 
               <div className="text-[0.88rem] text-slate-mist mb-5 space-y-1.5">
                 <p>
-                  <span className="text-paper font-medium">Selected:</span>{' '}
+                  <span className="text-cream font-medium">Selected:</span>{' '}
                   {variants.find((v) => v.id === selectedVariant)?.label}
                 </p>
                 <p>
-                  <span className="text-paper font-medium">{bagSizeLabel}:</span>{' '}
+                  <span className="text-cream font-medium">{bagSizeLabel}:</span>{' '}
                   {sizes.find((s) => s.id === selectedSize)?.label}
                 </p>
                 <p>
-                  <span className="text-paper font-medium">Quantity:</span>{' '}
+                  <span className="text-cream font-medium">Quantity:</span>{' '}
                   {quantity}
                 </p>
               </div>

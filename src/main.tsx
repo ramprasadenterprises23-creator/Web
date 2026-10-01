@@ -3,7 +3,7 @@
 import { StrictMode } from 'react';
 //createRoot is a React function that takes a browser DOM node and lets you display React components inside it
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';`  `
+import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 //catches JavaScript errors anywhere in its child component tree, logs those errors, and shows a backup screen instead of crashing the whole app
 import { ErrorBoundary } from './components/error-boundary';

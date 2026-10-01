@@ -15,17 +15,20 @@ export function About() {
         description="A construction materials supplier focused on dependable products and service."
       />
 
-      <section className="py-72px">
-  <div className="w-full max-w-1180px mx-auto px-6 md:px-12">
-    <div className="grid md:grid-cols-[380px_1fr] gap-10 md:gap-16 items-center">
+      <section className="py-[72px]">
+  <div className="w-full max-w-[1180px] mx-auto px-6 md:px-12">
+    <div data-reveal-group className="grid md:grid-cols-[380px_1fr] gap-10 md:gap-16 items-center">
       
       {/* Photo */}
       <div className="relative">
-        <div className="aspect-[4/5] w-full max-w-380px overflow-hidden rounded-2xl bg-steel/10">
+        <div className="aspect-[4/5] w-full max-w-[380px] overflow-hidden rounded-2xl bg-steel/10">
           <img
             src="/images/subash-bera.jpg" // TODO: replace with actual photo path
             alt="Subash Bera, Founder of Ramprasad Enterprises"
             className="w-full h-full object-cover"
+            loading="lazy"
+            decoding="async"
+            onError={(e) => { e.currentTarget.style.visibility = 'hidden'; }}
           />
         </div>
       </div>
@@ -40,7 +43,7 @@ export function About() {
           Subash Bera
         </h2>
 
-        <p className="text-steel leading-relaxed max-w-62ch mb-4">
+        <p className="text-steel leading-relaxed max-w-[62ch] mb-4">
           {/* TODO: 1–2 sentence intro — who he is, how long he's been in the
           construction materials business, what drives him */}
           Subash Bera founded Ramprasad Enterprises to supply reliable,
@@ -48,7 +51,7 @@ export function About() {
           construction requirements.
         </p>
 
-        <p className="text-steel leading-relaxed max-w-62ch mb-6">
+        <p className="text-steel leading-relaxed max-w-[62ch] mb-6">
           {/* TODO: what the business offers, under his lead */}
           Under his leadership, the company provides materials including TMT
           steel, cement, sand, stone chips, aggregates, boulders, bricks,

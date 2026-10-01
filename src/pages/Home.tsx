@@ -13,20 +13,33 @@ import { Faq } from '../components/common/Faq';
 import { LocalCta } from '../components/common/LocalCta';
 import { Meta } from '../components/common/Meta';
 import { JsonLd } from '../components/common/JsonLd';
+import { Aurora } from '../components/motion/Aurora';
+import { GlowCard } from '../components/motion/GlowCard';
+import { Marquee } from '../components/motion/Marquee';
+import { Process } from '../components/sections/Process';
+import { TrustStrip } from '../components/sections/TrustStrip';
 
 import { CoverIntro } from '../components/layout/CoverIntro';
 import logo from '../assets/ChatGPT_Image_Jul_3__2026__08_23_18_PM-removebg-preview.png';
-import coverPhoto from '../assets/e1902c4e-7c55-4934-9e22-3cf02bdb61e4.png';
+import coverPhoto from '../assets/e1902c4e-7c55-4934-9e22-3cf02bdb61e4.webp';
+import tiscon from '../assets/tata-tiscon.webp';
 
 
 import { productDetails } from '../data/productDetails';
+import {
+  ADDRESS,
+  BUSINESS_NAME,
+  GEO,
+  MAPS_URL,
+  PHONE_E164,
+} from '../lib/contact';
 import { brands } from '../data/brands';
 
-import rod from '../assets/images__2_-removebg-preview.png';
-import cement from '../assets/s1-500x500-removebg-preview.png';
-import aggregates from '../assets/dustmaster_aggregate_industry-removebg-preview.png';
-import essentials from '../assets/images-removebg-preview (2).png';
-import rod2 from '../assets/Untitled design.png';
+import rod from '../assets/images__2_-removebg-preview.webp';
+import cement from '../assets/s1-500x500-removebg-preview.webp';
+import aggregates from '../assets/dustmaster_aggregate_industry-removebg-preview.webp';
+import essentials from '../assets/images-removebg-preview (2).webp';
+import rod2 from '../assets/Untitled design.webp';
 
 const eyebrowClasses =
   "inline-flex items-center gap-2 text-rust mb-4 before:content-[''] before:w-3.5 before:h-px before:bg-rust";
@@ -34,9 +47,9 @@ const eyebrowClasses =
 const buttonBase =
   'inline-flex items-center justify-center gap-2.5 text-[0.92rem] font-semibold px-6 py-3.5 rounded-sm border border-transparent transition-[background-color,transform,box-shadow] active:translate-y-0 hover:-translate-y-px';
 
-const buttonPrimary = `${buttonBase} bg-rust text-paper shadow-[0_1px_0_rgba(255,255,255,0.12)_inset,0_6px_16px_-8px_rgba(181,69,29,0.55)] hover:bg-rust-dark`;
+const buttonPrimary = `${buttonBase} bg-rust text-primary-foreground shadow-[0_1px_0_rgba(255,255,255,0.12)_inset,0_6px_16px_-8px_rgba(181,69,29,0.55)] hover:bg-rust-dark btn-shine`;
 
-const buttonDark = `${buttonBase} bg-ink text-paper shadow-[0_1px_0_rgba(255,255,255,0.08)_inset,0_6px_16px_-8px_rgba(28,27,24,0.5)] hover:bg-charcoal-2`;
+const buttonDark = `${buttonBase} bg-ink text-paper shadow-[0_1px_0_rgba(255,255,255,0.08)_inset,0_6px_16px_-8px_rgba(0,0,0,0.5)] hover:bg-charcoal-2 dark:bg-charcoal-2 dark:text-cream dark:border-border-dark dark:hover:border-amber dark:hover:bg-charcoal`;
 
 const buttonOutline = `${buttonBase} bg-transparent text-ink border-border shadow-none hover:border-ink hover:-translate-y-0`;
 
@@ -56,7 +69,7 @@ const differenceCards: DifferenceCard[] = [
     text: 'Compare bar sizes and grades for your slab, column or foundation work.',
     icon: HardHat,
     image: rod2,
-    to: '/products/tata-tiscon-tmt', // change to your steel/TMT route
+    to: '/products/tmt-steel',
   },
   {
     index: '02',
@@ -64,7 +77,7 @@ const differenceCards: DifferenceCard[] = [
     text: 'Ask for the brands currently in stock and pick what suits your build.',
     icon: Layers,
     image: cement,
-    to: '/products', // change to your cement route
+    to: '/products/cement',
   },
   {
     index: '03',
@@ -72,27 +85,38 @@ const differenceCards: DifferenceCard[] = [
     text: 'Sand, stone chips and aggregates, planned around your delivery schedule.',
     icon: Truck,
     image: aggregates,
-    to: '/products', // change to your aggregates route
+    to: '/products/stone-chips-aggregates',
   },
 ];
 
 export function Home() {
+  const origin = typeof window !== 'undefined' ? window.location.origin : '';
   const schema = {
     '@context': 'https://schema.org',
-    '@type': 'LocalBusiness',
-    name: 'M/s Ramprasad Enterprises',
+    '@type': 'HardwareStore',
+    '@id': `${origin}/#business`,
+    name: BUSINESS_NAME,
     description:
-      'Authorized Tata Tiscon dealer and construction-material supplier.',
+      'Authorized Tata Tiscon dealer and construction-material supplier: TMT steel, cement, sand, aggregates, bricks and more.',
+    url: origin,
+    telephone: PHONE_E164,
+    image: `${origin}${new URL(coverPhoto, 'http://x').pathname}`,
     address: {
       '@type': 'PostalAddress',
-      addressLocality: 'Dosinga, Dhamara',
-      addressRegion: 'Odisha',
-      addressCountry: 'IN',
+      streetAddress: ADDRESS.street,
+      addressLocality: 'Dhamara',
+      addressRegion: ADDRESS.region,
+      postalCode: ADDRESS.postalCode,
+      addressCountry: ADDRESS.country,
     },
-    url:
-      typeof window !== 'undefined'
-        ? window.location.origin
-        : '',
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: GEO.latitude,
+      longitude: GEO.longitude,
+    },
+    hasMap: MAPS_URL,
+    areaServed: ['Dosinga', 'Dhamara', 'Bhadrak'],
+    // TODO: add openingHoursSpecification once the real timings are confirmed
   };
 
   return (
@@ -114,8 +138,9 @@ export function Home() {
       <CoverIntro photo={coverPhoto} logo={logo} offset={76}>
         {/* Hero */}
         <section className="relative py-16 pb-[92px] border-b border-border overflow-hidden before:content-[''] before:absolute before:inset-0 before:bg-[linear-gradient(var(--color-border)_1px,transparent_1px),linear-gradient(90deg,var(--color-border)_1px,transparent_1px)] before:bg-[length:44px_44px] before:[mask-image:radial-gradient(ellipse_70%_60%_at_78%_30%,black_0%,transparent_72%)] before:opacity-70 before:pointer-events-none">
+          <Aurora />
           <div className="relative z-[1] w-full max-w-[1180px] mx-auto px-6 md:px-12 grid gap-14 items-center lg:grid-cols-[1.05fr_0.95fr] lg:gap-10">
-            <div>
+            <div data-reveal-group>
               <div
                 className={`font-mono text-[0.78rem] tracking-wide ${eyebrowClasses}`}
               >
@@ -125,7 +150,7 @@ export function Home() {
               {/* h2 (not h1): the cover screen already holds the page's h1 */}
               <h2 className="mt-1 mb-[22px] font-display font-extrabold leading-[1.06] tracking-[-0.02em] text-ink text-[clamp(2.5rem,4.6vw,3.9rem)]">
                 Materials for{' '}
-                <em className="not-italic font-extrabold">
+                <em className="not-italic font-extrabold text-shimmer">
                   what comes next.
                 </em>
               </h2>
@@ -149,7 +174,7 @@ export function Home() {
                 </ActionLink>
 
                 <ActionLink
-                  kind="enquiry"
+                  kind="directions"
                   className={buttonOutline}
                 >
                   Get directions
@@ -170,15 +195,18 @@ export function Home() {
             </div>
 
             <div
+              data-reveal="scale"
+              data-reveal-delay="180"
               className="relative"
               aria-label="Illustration of construction materials"
             >
-              <div className="relative bg-charcoal rounded-md p-7 text-paper shadow-[0_1px_0_rgba(255,255,255,0.04)_inset,0_30px_60px_-25px_rgba(28,27,24,0.5)] before:content-[''] before:absolute before:w-5 before:h-5 before:border-2 before:border-rust before:top-3 before:left-3 before:border-r-0 before:border-b-0 after:content-[''] after:absolute after:w-5 after:h-5 after:border-2 after:border-rust after:bottom-3 after:right-3 after:border-l-0 after:border-t-0">
+              <div className="relative bg-charcoal rounded-md p-7 text-cream shadow-[0_1px_0_rgba(255,255,255,0.04)_inset,0_30px_60px_-25px_rgba(0,0,0,0.5)] before:content-[''] before:absolute before:w-5 before:h-5 before:border-2 before:border-rust before:top-3 before:left-3 before:border-r-0 before:border-b-0 after:content-[''] after:absolute after:w-5 after:h-5 after:border-2 after:border-rust after:bottom-3 after:right-3 after:border-l-0 after:border-t-0">
                 <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3ZGyGwOQJBRCYmIN7lR3YuWgOLR19bef07eipgNkf-cQVa8NxSSrUEUk&s=10"
-                  alt="Illustration showing construction materials"
+                  src={tiscon}
+                  alt="Tata Tiscon TMT steel bars"
                   className="w-full h-auto object-cover rounded"
                   loading="lazy"
+                  decoding="async"
                 />
 
                 <span className="relative z-[1] flex items-center gap-2 font-mono text-[0.78rem] text-amber mb-[22px] mt-[22px] before:content-[''] before:w-1.5 before:h-1.5 before:rounded-full before:bg-amber before:shadow-[0_0_0_3px_rgba(214,163,57,0.25)]">
@@ -186,7 +214,7 @@ export function Home() {
                 </span>
 
                 <div className="grid grid-cols-2 gap-px bg-border-dark border border-border-dark">
-                  <div className="group bg-charcoal px-[18px] py-[26px] font-display font-bold text-[1.05rem] leading-[1.25] min-h-[104px] flex items-end transition-colors hover:bg-rust hover:text-paper">
+                  <div className="group bg-charcoal px-[18px] py-[26px] font-display font-bold text-[1.05rem] leading-[1.25] min-h-[104px] flex items-end transition-colors hover:bg-rust hover:text-cream">
                     <div className="flex justify-between items-end h-full w-full">
                       <span>
                         Steel
@@ -202,7 +230,7 @@ export function Home() {
                     </div>
                   </div>
 
-                  <div className="group bg-charcoal px-[18px] py-[26px] font-display font-bold text-[1.05rem] leading-[1.25] min-h-[104px] flex items-end transition-colors hover:bg-rust hover:text-paper">
+                  <div className="group bg-charcoal px-[18px] py-[26px] font-display font-bold text-[1.05rem] leading-[1.25] min-h-[104px] flex items-end transition-colors hover:bg-rust hover:text-cream">
                     <div className="flex justify-between items-end h-full w-full">
                       <span>Cement</span>
 
@@ -214,7 +242,7 @@ export function Home() {
                     </div>
                   </div>
 
-                  <div className="group bg-charcoal px-[18px] py-[26px] font-display font-bold text-[1.05rem] leading-[1.25] min-h-[104px] flex items-end transition-colors hover:bg-rust hover:text-paper">
+                  <div className="group bg-charcoal px-[18px] py-[26px] font-display font-bold text-[1.05rem] leading-[1.25] min-h-[104px] flex items-end transition-colors hover:bg-rust hover:text-cream">
                     <div className="flex justify-between items-end h-full w-full">
                       <span>Aggregates</span>
 
@@ -226,7 +254,7 @@ export function Home() {
                     </div>
                   </div>
 
-                  <div className="group bg-charcoal px-[18px] py-[26px] font-display font-bold text-[1.05rem] leading-[1.25] min-h-[104px] flex items-end transition-colors hover:bg-rust hover:text-paper">
+                  <div className="group bg-charcoal px-[18px] py-[26px] font-display font-bold text-[1.05rem] leading-[1.25] min-h-[104px] flex items-end transition-colors hover:bg-rust hover:text-cream">
                     <div className="flex justify-between items-end h-full w-full">
                       <span>Essentials</span>
 
@@ -247,10 +275,12 @@ export function Home() {
           </div>
         </section>
 
+        <TrustStrip />
+
         {/* Difference */}
         <section className="py-12">
           <div className="w-full max-w-[1180px] mx-auto px-6 md:px-12">
-            <div className="flex flex-wrap justify-between items-end gap-6 mb-10 pb-7 border-b border-border">
+            <div data-reveal className="flex flex-wrap justify-between items-end gap-6 mb-10 pb-7 border-b border-border">
               <div>
                 <div
                   className={`font-mono text-[0.78rem] tracking-wide ${eyebrowClasses}`}
@@ -272,9 +302,9 @@ export function Home() {
               </p>
             </div>
 
-            <div className="grid gap-5 lg:grid-cols-[1.25fr_1fr_1fr_1fr]">
+            <div data-reveal-group className="grid gap-5 lg:grid-cols-[1.25fr_1fr_1fr_1fr]">
               {/* Featured card */}
-              <div className="relative overflow-hidden rounded-xl bg-charcoal text-paper p-8 flex flex-col justify-between min-h-[460px] shadow-[0_30px_60px_-30px_rgba(28,27,24,0.55)]">
+              <div className="relative overflow-hidden rounded-xl bg-charcoal text-cream p-8 flex flex-col justify-between min-h-[460px] shadow-[0_30px_60px_-30px_rgba(0,0,0,0.55)]">
                 {/* decorative rebar, kept subtle so text stays readable */}
                 <img
                   src={rod}
@@ -290,7 +320,7 @@ export function Home() {
                     Authorized dealer
                   </span>
 
-                  <h3 className="mt-6 mb-4 font-display font-bold text-[1.7rem] leading-tight tracking-[-0.01em] text-paper">
+                  <h3 className="mt-6 mb-4 font-display font-bold text-[1.7rem] leading-tight tracking-[-0.01em] text-cream">
                     Tata Tiscon,
                     <br />
                     straight from a
@@ -303,7 +333,7 @@ export function Home() {
                     alongside your other construction requirements.
                   </p>
 
-                  <ul className="mt-6 space-y-2 text-[0.88rem] text-paper/90">
+                  <ul className="mt-6 space-y-2 text-[0.88rem] text-cream/90">
                     {['TMT bars', 'Binding wire'].map((item) => (
                       <li key={item} className="flex items-center gap-2.5">
                         <span className="w-1.5 h-1.5 rounded-full bg-rust" />
@@ -314,7 +344,7 @@ export function Home() {
                 </div>
 
                 <Link
-                  to="/products/tata-tiscon-tmt"
+                  to="/products/tmt-steel"
                   className={`${buttonPrimary} relative self-start mt-8`}
                 >
                   Explore Tata Tiscon
@@ -325,12 +355,13 @@ export function Home() {
               {/* Three matching cards */}
               {differenceCards.map(
                 ({ index, title, text, icon: Icon, image, to }) => (
-                  <article
+                  <GlowCard
+                    as="article"
                     key={title}
-                    className="group flex flex-col overflow-hidden rounded-xl border border-border bg-paper transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_24px_48px_-28px_rgba(28,27,24,0.35)]"
+                    className="group flex flex-col overflow-hidden rounded-xl border border-border bg-paper transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_24px_48px_-28px_rgba(0,0,0,0.35)]"
                   >
                     {/* fixed-height image well = every card lines up */}
-                    <div className="flex h-44 items-center justify-center border-b border-border bg-white p-5">
+                    <div className="flex h-44 items-center justify-center border-b border-border bg-[#fbf9f4] p-5 dark:bg-[#e9e4d6]">
                       <img
                         src={image}
                         alt={title}
@@ -344,7 +375,7 @@ export function Home() {
                         <span className="font-mono text-[0.72rem] text-rust">
                           {index}
                         </span>
-                        <span className="flex h-10 w-10 items-center justify-center rounded-full bg-rust/10 text-rust transition-colors group-hover:bg-rust group-hover:text-paper">
+                        <span className="flex h-10 w-10 items-center justify-center rounded-full bg-rust/10 text-rust transition-colors group-hover:bg-rust group-hover:text-primary-foreground">
                           <Icon size={17} />
                         </span>
                       </div>
@@ -368,7 +399,7 @@ export function Home() {
                         />
                       </Link>
                     </div>
-                  </article>
+                  </GlowCard>
                 ),
               )}
             </div>
@@ -378,13 +409,13 @@ export function Home() {
         {/* Products */}
         <section className="relative bg-charcoal py-20 border-t border-border-dark before:content-[''] before:absolute before:top-0 before:left-0 before:right-0 before:h-1.5 before:opacity-55 before:bg-[repeating-linear-gradient(90deg,var(--color-rust)_0_2px,transparent_2px_16px)]">
           <div className="relative w-full max-w-[1180px] mx-auto px-6 md:px-12">
-            <div className="flex flex-wrap justify-between items-end gap-6 mb-10 pb-7 border-b border-border-dark">
+            <div data-reveal className="flex flex-wrap justify-between items-end gap-6 mb-10 pb-7 border-b border-border-dark">
               <div>
                 <div className="font-mono text-[0.78rem] text-amber">
                   03 / Materials catalogue
                 </div>
 
-                <h2 className="font-display font-bold leading-tight tracking-[-0.015em] text-paper text-[clamp(1.8rem,2.9vw,2.55rem)]">
+                <h2 className="font-display font-bold leading-tight tracking-[-0.015em] text-cream text-[clamp(1.8rem,2.9vw,2.55rem)]">
                   Everything that
                   <br />
                   holds a build together.
@@ -397,7 +428,7 @@ export function Home() {
               </p>
             </div>
 
-            <div className="border-t border-border-dark">
+            <div data-reveal-group className="border-t border-border-dark">
               {productDetails.map(
                 (product: {
                   slug: string;
@@ -415,7 +446,7 @@ export function Home() {
                     </span>
 
                     <div className="flex-1">
-                      <h3 className="text-paper text-[1.1rem] mb-1.5">
+                      <h3 className="text-cream text-[1.1rem] mb-1.5">
                         {product.title}
                       </h3>
 
@@ -424,7 +455,7 @@ export function Home() {
                       </p>
                     </div>
 
-                    <span className="text-paper opacity-40 transition-[opacity,transform] group-hover:opacity-100 group-hover:translate-x-1 group-hover:text-amber">
+                    <span className="text-cream opacity-40 transition-[opacity,transform] group-hover:opacity-100 group-hover:translate-x-1 group-hover:text-amber">
                       <ArrowRight size={15} />
                     </span>
                   </Link>
@@ -434,10 +465,22 @@ export function Home() {
           </div>
         </section>
 
+        {/* Materials + brands ticker */}
+        <section
+          aria-label="Materials and brands we supply"
+          className="relative overflow-hidden border-y border-border bg-panel py-5"
+        >
+          <Marquee
+            duration={60}
+            className="font-display text-[1.05rem] font-bold uppercase tracking-[0.08em] text-ink/80"
+            items={[...productDetails.map((p: { title: string }) => p.title), ...brands]}
+          />
+        </section>
+
         {/* Brands */}
         <section className="py-[72px]">
           <div className="w-full max-w-[1180px] mx-auto px-6 md:px-12">
-            <div className="flex flex-wrap justify-between items-end gap-6 mb-10 pb-7 border-b border-border">
+            <div data-reveal className="flex flex-wrap justify-between items-end gap-6 mb-10 pb-7 border-b border-border">
               <div>
                 <div
                   className={`font-mono text-[0.78rem] tracking-wide ${eyebrowClasses}`}
@@ -458,7 +501,7 @@ export function Home() {
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-2.5">
+            <div data-reveal-group className="flex flex-wrap gap-2.5">
               {brands.map((brand: string, index: number) => (
                 <div
                   className="inline-flex items-center gap-2 px-4 py-2.5 border border-border rounded-full text-[0.88rem] text-ink bg-paper"
@@ -473,6 +516,8 @@ export function Home() {
             </div>
           </div>
         </section>
+
+        <Process />
 
         <LocalCta />
 

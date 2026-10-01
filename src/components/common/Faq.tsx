@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import { JsonLd } from './JsonLd';
+
 const faqs = [
   {
     question: 'What construction materials do you supply?',
@@ -38,7 +40,19 @@ export function Faq() {
   }
 
   return (
-    <section className="py-[72px] border-t border-border">
+    <section id="faq" className="py-[72px] border-t border-border">
+      {/* FAQ rich results in Google */}
+      <JsonLd
+        data={{
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: faqs.map((faq) => ({
+            '@type': 'Question',
+            name: faq.question,
+            acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+          })),
+        }}
+      />
       <div className="w-full max-w-[1180px] mx-auto px-6 md:px-12">
         <div className="max-w-[60ch] mb-10">
           <p className="font-mono text-[0.78rem] text-rust mb-2.5">FAQ</p>
@@ -51,7 +65,7 @@ export function Faq() {
           </p>
         </div>
 
-        <div className="max-w-[760px] mt-2 border-t border-border">
+        <div data-reveal-group className="max-w-[760px] mt-2 border-t border-border">
           {faqs.map((faq, index) => {
             const isOpen = openIndex === index;
 
@@ -65,20 +79,30 @@ export function Faq() {
                   className="w-full flex items-center justify-between gap-5 bg-transparent border-none text-left py-[22px] px-1 font-display font-bold text-[1rem] text-ink cursor-pointer"
                   onClick={() => toggleFaq(index)}
                   aria-expanded={isOpen}
+                  aria-controls={`faq-panel-${index}`}
                 >
                   <span>{faq.question}</span>
-                  <span className="shrink-0 text-rust text-xl leading-none">
-                    {isOpen ? '−' : '+'}
+                  <span
+                    aria-hidden="true"
+                    className={`shrink-0 text-rust text-xl leading-none transition-transform duration-300 ${isOpen ? 'rotate-45' : ''}`}
+                  >
+                    +
                   </span>
                 </button>
 
-                {isOpen && (
-                  <div className="px-1 pb-6">
-                    <p className="text-[0.95rem] max-w-[70ch] text-steel leading-relaxed">
+                <div
+                  id={`faq-panel-${index}`}
+                  role="region"
+                  className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out ${
+                    isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    <p className="px-1 pb-6 text-[0.95rem] max-w-[70ch] text-steel leading-relaxed">
                       {faq.answer}
                     </p>
                   </div>
-                )}
+                </div>
               </div>
             );
           })}

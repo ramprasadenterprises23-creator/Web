@@ -12,6 +12,7 @@ export function NotFound() {
       <Meta
         title="Page not found | M/s Ramprasad Enterprises"
         description="The page you requested could not be found."
+        noindex
       />
 
       <div className="w-full max-w-[1180px] mx-auto px-6 md:px-12 min-h-[60vh] flex items-center py-20">
@@ -35,7 +36,7 @@ export function NotFound() {
 
           <Link
             to="/"
-            className="inline-flex items-center justify-center gap-2.5 mt-5 text-[0.92rem] font-semibold px-6 py-3.5 rounded-sm border border-transparent bg-rust text-paper shadow-[0_1px_0_rgba(255,255,255,0.12)_inset,0_6px_16px_-8px_rgba(181,69,29,0.55)] transition-colors hover:bg-rust-dark"
+            className="inline-flex items-center justify-center gap-2.5 mt-5 text-[0.92rem] font-semibold px-6 py-3.5 rounded-sm border border-transparent bg-rust text-primary-foreground shadow-[0_1px_0_rgba(255,255,255,0.12)_inset,0_6px_16px_-8px_rgba(181,69,29,0.55)] transition-colors hover:bg-rust-dark btn-shine"
           >
             Back to home
             <ArrowRight size={15} />

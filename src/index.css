@@ -23,36 +23,63 @@
 
   /* muted greys used on dark charcoal sections (same in both themes) */
   --color-slate-mist: #9aa2ab;
-  --color-slate-mist-dim: #6b7279;
+  --color-slate-mist-dim: #8f98a5;
 
-  /* shadcn-style semantic tokens, used by the ui/ primitives */
-  --color-background: var(--color-paper);
-  --color-foreground: var(--color-ink);
-  --color-primary: var(--color-rust);
-  --color-primary-foreground: var(--color-paper);
-  --color-accent: var(--color-amber);
-  --color-accent-foreground: var(--color-ink);
-  --color-muted: var(--color-panel);
-  --color-muted-foreground: var(--color-steel);
+  /* Surfaces that are dark in BOTH themes need text that never flips.
+     Use text-cream on bg-charcoal / bg-navy, never text-paper. */
+  --color-cream: #f5f1e8;
+  --color-navy: #0f2444;     /* cover screen + mobile menu */
+  --color-brand: #13284a;    /* wordmark + header icons (flips to light in dark) */
+
+  /* Semantic tokens. "On-colour" pairs are plain values so they never flip. */
+  --color-background: #efeee8;
+  --color-foreground: #1c1b18;
+  --color-primary: #b5451d;
+  --color-primary-foreground: #fbf7f0;
+  --color-accent: #d6a339;
+  --color-accent-foreground: #1c1b18;
+  --color-muted: #e4e0d5;
+  --color-muted-foreground: #55606b;
   --color-destructive: #c0362b;
   --color-destructive-foreground: #fdf4f2;
+  --color-success: #2f7d4f;
 }
 
-/* ---- Dark theme overrides ----
-   Only the "light zone" tokens flip; the charcoal accent blocks that are
-   already dark stay the same in both themes so that layout & contrast
-   choices made throughout the site keep working unchanged. */
+/* ---- Dark theme: deep blue-black, warm ivory text, ember + champagne accents ----
+   Surface ladder (low -> high): paper < panel < charcoal < charcoal-2 */
 .dark {
-  --color-ink: #efeee8;
-  --color-paper: #161512;
-  --color-panel: #201e1a;
-  --color-steel: #9099a1;
-  --color-border: #33322c;
+  color-scheme: dark;
 
-  --color-background: var(--color-paper);
-  --color-foreground: var(--color-ink);
-  --color-muted: var(--color-panel);
-  --color-muted-foreground: var(--color-steel);
+  --color-paper: #0c0d10;
+  --color-panel: #14161b;
+  --color-charcoal: #161920;
+  --color-charcoal-2: #1f232b;
+  --color-navy: #0a1220;
+  --color-brand: #e9edf5;
+
+  --color-ink: #ece9e1;
+  --color-steel: #99a2ae;
+  --color-slate-mist: #a7afba;
+  --color-slate-mist-dim: #8f98a5;
+
+  --color-border: #242831;
+  --color-border-dark: #2c3039;
+
+  --color-rust: #e8683c;
+  --color-rust-dark: #cf5428;
+  --color-amber: #dcb468;
+
+  --color-background: #0c0d10;
+  --color-foreground: #ece9e1;
+  --color-primary: #e8683c;
+  --color-primary-foreground: #160d09;
+  --color-accent: #dcb468;
+  --color-accent-foreground: #17120a;
+  --color-muted: #14161b;
+  --color-muted-foreground: #99a2ae;
+  --color-destructive: #ef5b4d;
+  --color-destructive-foreground: #1a0907;
+  --color-success: #5cc58a;
 }
 
 @layer base {
@@ -62,12 +89,24 @@
 
   html {
     scroll-behavior: smooth;
+    /* anchors/skip-links never hide under the sticky header */
+    scroll-padding-top: 96px;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
   }
 
   body {
     @apply bg-paper text-ink font-sans antialiased min-h-screen;
     text-rendering: optimizeLegibility;
     transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  /* faint top glow in dark mode */
+  .dark body {
+    background-image:
+      radial-gradient(1200px 500px at 50% -10%, rgb(220 180 104 / 0.06), transparent 60%),
+      radial-gradient(800px 400px at 90% 0%, rgb(232 104 60 / 0.045), transparent 60%);
+    background-attachment: fixed;
   }
 
   button,
@@ -88,8 +127,167 @@
     display: block;
   }
 
+  ::selection {
+    background: rgb(232 104 60 / 0.3);
+    color: inherit;
+  }
+
+  .dark ::-webkit-scrollbar { width: 10px; height: 10px; }
+  .dark ::-webkit-scrollbar-track { background: var(--color-paper); }
+  .dark ::-webkit-scrollbar-thumb {
+    background: #2a2e36;
+    border-radius: 999px;
+    border: 2px solid var(--color-paper);
+  }
+  .dark ::-webkit-scrollbar-thumb:hover { background: #3a3f49; }
+
   :focus-visible {
     outline: 2px solid var(--color-rust);
     outline-offset: 3px;
   }
+
+  /* respect users who ask for less motion */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* keep printed pages (quotes, directions) clean */
+  @media print {
+    header, footer, [data-no-print] { display: none !important; }
+    body { background: #fff !important; color: #000 !important; }
+  }
+}
+
+/* =====================================================================
+   Motion + depth layer
+   ===================================================================== */
+:root {
+  --glow: rgb(181 69 29 / 0.10);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+.dark {
+  --glow: rgb(220 180 104 / 0.14);
+}
+
+/* ---- Lenis smooth scroll (essentials from lenis.css) ---- */
+html.lenis,
+html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+.lenis.lenis-smooth iframe { pointer-events: none; }
+
+/* ---- Scroll reveal: hidden state only exists once RevealObserver is running ---- */
+html.js-reveal [data-reveal]:not([data-in]) { opacity: 0; }
+[data-reveal][data-in] { animation: reveal-up 0.85s var(--ease-out) var(--rd, 0ms) backwards; }
+[data-reveal="left"][data-in] { animation-name: reveal-left; }
+[data-reveal="right"][data-in] { animation-name: reveal-right; }
+[data-reveal="scale"][data-in] { animation-name: reveal-scale; }
+[data-reveal="fade"][data-in] { animation-name: reveal-fade; }
+
+@keyframes reveal-up    { from { opacity: 0; transform: translate3d(0, 28px, 0); } }
+@keyframes reveal-left  { from { opacity: 0; transform: translate3d(-36px, 0, 0); } }
+@keyframes reveal-right { from { opacity: 0; transform: translate3d(36px, 0, 0); } }
+@keyframes reveal-scale { from { opacity: 0; transform: scale(0.94); } }
+@keyframes reveal-fade  { from { opacity: 0; } }
+
+/* page transition + hero entrance (opacity/translate only, never breaks sticky or fixed children) */
+.page-enter { animation: reveal-fade 0.45s var(--ease-out) both; }
+.rise { animation: reveal-up 0.9s var(--ease-out) var(--rd, 0ms) both; }
+
+/* ---- Marquee ---- */
+.marquee {
+  display: flex;
+  gap: var(--gap, 2rem);
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.marquee__track {
+  display: flex;
+  flex-shrink: 0;
+  min-width: 100%;
+  align-items: center;
+  justify-content: space-around;
+  gap: var(--gap, 2rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  animation: marquee var(--dur, 40s) linear infinite;
+}
+.marquee:hover .marquee__track { animation-play-state: paused; }
+@keyframes marquee { to { transform: translateX(calc(-100% - var(--gap, 2rem))); } }
+
+/* ---- Aurora glow ---- */
+.aurora__blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(80px);
+  opacity: 0.16;
+  will-change: transform;
+}
+.dark .aurora__blob { opacity: 0.34; }
+.aurora__blob--a { width: 42rem; height: 28rem; left: -12%; top: -30%; background: var(--color-rust); animation: aurora-a 22s ease-in-out infinite; }
+.aurora__blob--b { width: 36rem; height: 26rem; right: -10%; top: 5%; background: var(--color-amber); animation: aurora-b 28s ease-in-out infinite; }
+.aurora__blob--c { width: 30rem; height: 22rem; left: 30%; bottom: -35%; background: #3b5bdb; opacity: 0.08; animation: aurora-a 34s ease-in-out infinite reverse; }
+.dark .aurora__blob--c { opacity: 0.18; }
+@keyframes aurora-a { 0%, 100% { transform: translate3d(0, 0, 0) scale(1); } 50% { transform: translate3d(8%, 10%, 0) scale(1.18); } }
+@keyframes aurora-b { 0%, 100% { transform: translate3d(0, 0, 0) scale(1.1); } 50% { transform: translate3d(-10%, 6%, 0) scale(0.92); } }
+@media (max-width: 640px) { .aurora__blob--c { display: none; } .aurora__blob { filter: blur(56px); } }
+
+/* ---- Cursor spotlight cards ---- */
+.glow-card { overflow: hidden; }
+.glow-card__spot {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  background: radial-gradient(380px circle at var(--mx, 50%) var(--my, 0%), var(--glow), transparent 65%);
+}
+.glow-card:hover .glow-card__spot { opacity: 1; }
+
+/* ---- Shimmering accent text ---- */
+.text-shimmer {
+  background-image: linear-gradient(100deg, var(--color-rust) 10%, var(--color-amber) 48%, var(--color-rust) 85%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 7s ease-in-out infinite alternate;
+}
+@keyframes shimmer { to { background-position: 100% 0; } }
+
+/* ---- Button sheen ---- */
+@layer components {
+  .btn-shine { position: relative; overflow: hidden; }
+  .btn-shine::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(105deg, transparent 35%, rgb(255 255 255 / 0.28) 50%, transparent 65%);
+    transform: translateX(-120%);
+    transition: transform 0.75s var(--ease-out);
+  }
+  .btn-shine:hover::after { transform: translateX(120%); }
+}
+
+/* ---- Reduced motion + print: everything visible, nothing moving ---- */
+@media (prefers-reduced-motion: reduce) {
+  html.js-reveal [data-reveal]:not([data-in]) { opacity: 1; }
+  [data-reveal][data-in], .page-enter, .rise { animation: none; }
+  .marquee { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
+  .marquee__track { animation: none !important; }
+  .marquee__track[aria-hidden="true"] { display: none; }
+  .aurora__blob, .text-shimmer { animation: none !important; }
+}
+@media print {
+  [data-reveal] { opacity: 1 !important; animation: none !important; }
+  .aurora, .glow-card__spot { display: none !important; }
 }

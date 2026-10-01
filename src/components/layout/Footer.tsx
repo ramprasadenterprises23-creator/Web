@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 
 import { ActionLink } from '../common/ActionLink';
+import { ADDRESS, PHONE_DISPLAY, PHONE_E164 } from '../../lib/contact';
 
 const products = [
   { name: 'TMT Steel & Rebar', path: '/products/tmt-steel' },
@@ -22,12 +23,12 @@ const quickLinks = [
 export function Footer() {
   return (
     <footer className="bg-charcoal mt-auto">
-      <div className="w-full max-w-[1180px] mx-auto px-6 md:px-12 grid gap-10 py-16 pb-10 text-center items-center md:text-left md:items-start md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+      <div data-reveal-group className="w-full max-w-[1180px] mx-auto px-6 md:px-12 grid gap-10 py-16 pb-10 text-center items-center md:text-left md:items-start md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         {/* Company */}
         <div className="flex flex-col items-center md:items-start">
           <Link
             to="/"
-            className="inline-block font-display font-extrabold text-[1.05rem] text-paper mb-3.5"
+            className="inline-block font-display font-extrabold text-[1.05rem] text-cream mb-3.5"
           >
             Ramprasad Enterprises
           </Link>
@@ -47,14 +48,14 @@ export function Footer() {
 
         {/* Quick Links */}
         <div className="flex flex-col items-center md:items-start">
-          <h3 className="text-paper text-[0.85rem] mb-[18px]">Quick Links</h3>
+          <h3 className="text-cream text-[0.85rem] mb-[18px]">Quick Links</h3>
 
           <ul className="list-none m-0 p-0 flex flex-col items-center md:items-start gap-3">
             {quickLinks.map((link) => (
               <li key={link.path}>
                 <Link
                   to={link.path}
-                  className="text-slate-mist text-[0.9rem] transition-colors hover:text-paper"
+                  className="text-slate-mist text-[0.9rem] transition-colors hover:text-cream"
                 >
                   {link.name}
                 </Link>
@@ -65,14 +66,14 @@ export function Footer() {
 
         {/* Products */}
         <div className="flex flex-col items-center md:items-start">
-          <h3 className="text-paper text-[0.85rem] mb-[18px]">Products</h3>
+          <h3 className="text-cream text-[0.85rem] mb-[18px]">Products</h3>
 
           <ul className="list-none m-0 p-0 flex flex-col items-center md:items-start gap-3">
             {products.map((product) => (
               <li key={product.path}>
                 <Link
                   to={product.path}
-                  className="text-slate-mist text-[0.9rem] transition-colors hover:text-paper"
+                  className="text-slate-mist text-[0.9rem] transition-colors hover:text-cream"
                 >
                   {product.name}
                 </Link>
@@ -83,11 +84,15 @@ export function Footer() {
 
         {/* Contact */}
         <div className="flex flex-col items-center md:items-start">
-          <h3 className="text-paper text-[0.85rem] mb-[18px]">Contact</h3>
+          <h3 className="text-cream text-[0.85rem] mb-[18px]">Contact</h3>
 
-          <p className="text-slate-mist text-[0.9rem] mb-[18px]">
-            Need construction materials?
-          </p>
+          <address className="not-italic text-slate-mist text-[0.9rem] mb-[18px] leading-relaxed">
+            {ADDRESS.oneLine}
+            <br />
+            <a href={`tel:${PHONE_E164}`} className="text-cream hover:text-amber transition-colors">
+              {PHONE_DISPLAY}
+            </a>
+          </address>
 
           <div className="flex flex-col items-center md:items-start gap-2.5">
             <ActionLink kind="call" className="text-amber text-[0.85rem] font-semibold">
@@ -101,8 +106,16 @@ export function Footer() {
         </div>
       </div>
 
+      {/* oversized outlined wordmark, pure decoration */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none select-none overflow-hidden px-4 text-center font-display font-extrabold uppercase leading-[0.8] tracking-[-0.03em] text-transparent text-[clamp(3.5rem,15vw,12rem)] [-webkit-text-stroke:1px_var(--color-border-dark)]"
+      >
+        Ramprasad
+      </div>
+
       {/* Bottom */}
-      <div className="border-t border-border-dark py-[22px]">
+      <div className="border-t border-border-dark pt-[22px] pb-24 sm:pb-[22px]">
         <div className="w-full max-w-[1180px] mx-auto px-6 md:px-12 text-center md:text-left">
           <p className="text-slate-mist-dim text-[0.82rem] m-0">
             © {new Date().getFullYear()} Ramprasad Enterprises.

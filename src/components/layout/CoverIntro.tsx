@@ -1,4 +1,5 @@
 import { useEffect, useRef, type ReactNode } from 'react';
+import { scrollToY } from '../../lib/smoothScroll';
 import { ChevronsDown, ShieldCheck, Layers, MapPin, type LucideIcon } from 'lucide-react';
 
 /**
@@ -52,14 +53,14 @@ export function CoverIntro({ photo, logo, offset = 76, children }: Props) {
   }, [offset]);
 
   const goNext = () =>
-    window.scrollTo({ top: window.innerHeight - offset, behavior: 'smooth' });
+    scrollToY(window.innerHeight - offset);
 
   return (
     <div className="relative">
       <section
         ref={ref}
         aria-label="Welcome to Ramprasad Enterprises"
-        className="sticky z-0 w-full overflow-hidden bg-[#0f2444] text-paper"
+        className="sticky z-0 w-full overflow-hidden bg-navy text-cream"
         style={{
           top: offset,
           height: `calc(100svh - ${offset}px)`,
