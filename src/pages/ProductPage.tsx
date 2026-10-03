@@ -8,6 +8,7 @@ import { LocalCta } from '../components/common/LocalCta';
 import { Meta } from '../components/common/Meta';
 import { PageHero } from '../components/common/PageHero';
 import { productDetails, productDetailsBySlug } from '../data/productDetails';
+import { cld } from '../lib/cloudinary';
 import { NotFound } from './NotFound';
 
 const eyebrowClasses =
@@ -37,8 +38,10 @@ export function ProductPage() {
 
   const description = `${product.title} from M/s Ramprasad Enterprises in Dosinga, Dhamara, Bhadrak. Ask about types, uses and current availability.`;
 
-  const mainImage = product.image ?? '/images/products/placeholder.jpg';
-  const gallery = product.gallery ?? [];
+  const mainImage = product.image
+    ? cld(product.image, 1200)
+    : '/images/products/placeholder.jpg';
+  const gallery = (product.gallery ?? []).map((id) => cld(id, 600));
 
   const variants = product.variants ?? defaultVariants;
   const sizes = product.bagSizes ?? defaultBagSizes;
@@ -65,7 +68,7 @@ export function ProductPage() {
       <Meta
         title={`${product.title} | M/s Ramprasad Enterprises, Dosinga`}
         description={description}
-        image={typeof product.image === 'string' ? product.image : undefined}
+        image={product.image ? cld(product.image, 1200) : undefined}
       />
 
       {/* Hero */}
@@ -240,7 +243,7 @@ export function ProductPage() {
                         <span className="flex items-center gap-2.5">
                           {p.image && (
                             <img
-                              src={p.image}
+                              src={cld(p.image, 80)}
                               alt=""
                               className="w-7 h-7 rounded-sm object-cover flex-shrink-0"
                               loading="lazy"
@@ -338,7 +341,7 @@ export function ProductPage() {
                   >
                     {relatedProduct.image && (
                       <img
-                        src={relatedProduct.image}
+                        src={cld(relatedProduct.image, 80)}
                         alt={relatedProduct.title}
                         className="w-7 h-7 rounded-full object-cover"
                         loading="lazy"

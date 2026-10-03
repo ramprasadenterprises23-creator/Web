@@ -35,11 +35,11 @@ export const productDetails: ProductDetail[] = [
     uses: 'Columns, beams, slabs, foundations and other RCC structural work',
     availability: 'Contact for current stock, sizes and pricing',
     related: ['cement', 'binding-wire'],
-    image: '/images/products/tmt-steel.jpg',
+    image: 'ramprasad/rod4',
     gallery: [
-      '/images/products/tmt-steel-1.jpg',
-      '/images/products/tmt-steel-2.jpg',
-      '/images/products/tmt-steel-3.jpg',
+      'ramprasad/rod1',
+      'ramprasad/rod2',
+      'ramprasad/rod3',
     ],
     variantLabel: 'Choose diameter',
     variants: [
@@ -68,10 +68,11 @@ export const productDetails: ProductDetail[] = [
     uses: 'Foundation work, plastering, masonry and RCC construction',
     availability: 'Contact for current stock and pricing',
     related: ['tmt-steel', 'sand'],
-    image: '/images/products/cement.jpg',
+    image: 'ramprasad/cement',
     gallery: [
-      '/images/products/cement-1.jpg',
-      '/images/products/cement-2.jpg',
+      'ramprasad/cement1',
+      'ramprasad/cement2',
+      'ramprasad/cement3',
     ],
     variantLabel: 'Choose type',
     variants: [
@@ -97,10 +98,11 @@ export const productDetails: ProductDetail[] = [
     uses: 'Plastering, masonry work and concrete mixing',
     availability: 'Contact for current stock',
     related: ['cement', 'stone-chips-aggregates'],
-    image: '/images/products/sand.jpg',
+    image: 'ramprasad/sand',
     gallery: [
-      '/images/products/sand-1.jpg',
-      '/images/products/sand-2.jpg',
+      'ramprasad/sand1',
+      'ramprasad/sand2',
+      'ramprasad/sand3'
     ],
     variantLabel: 'Choose type',
     variants: [
@@ -126,10 +128,11 @@ export const productDetails: ProductDetail[] = [
     uses: 'Concrete mixing, road base and construction fill',
     availability: 'Contact for current stock',
     related: ['sand', 'boulders'],
-    image: '/images/products/stone-chips.jpg',
+    image: 'ramprasad/stone',
     gallery: [
-      '/images/products/stone-chips-1.jpg',
-      '/images/products/stone-chips-2.jpg',
+      'ramprasad/stone1',
+      'ramprasad/stone2',
+      'ramprasad/stone3',
     ],
     variantLabel: 'Choose size',
     variants: [
@@ -156,10 +159,11 @@ export const productDetails: ProductDetail[] = [
     uses: 'Foundation work, retaining structures and site filling',
     availability: 'Contact for current stock',
     related: ['stone-chips-aggregates', 'sand'],
-    image: '/images/products/boulders.jpg',
+    image: 'ramprasad/bolders',
     gallery: [
-      '/images/products/boulders-1.jpg',
-      '/images/products/boulders-2.jpg',
+      'ramprasad/bolders1',
+      'ramprasad/bolders2',
+      'ramprasad/bolders3',
     ],
     variantLabel: 'Choose size',
     variants: [
@@ -185,10 +189,11 @@ export const productDetails: ProductDetail[] = [
     uses: 'Wall construction for residential and other builds',
     availability: 'Contact for current stock',
     related: ['cement', 'sand'],
-    image: '/images/products/bricks.jpg',
+    image: 'ramprasad/bricks',
     gallery: [
-      '/images/products/bricks-1.jpg',
-      '/images/products/bricks-2.jpg',
+      'ramprasad/bricks1',
+      'ramprasad/bricks2',
+      'ramprasad/bricks3',
     ],
     variantLabel: 'Choose type',
     variants: [
@@ -214,9 +219,12 @@ export const productDetails: ProductDetail[] = [
     uses: 'Tying rebar in RCC structural work',
     availability: 'Contact for current stock',
     related: ['tmt-steel'],
-    image: '/images/products/binding-wire.jpg',
+    image: 'ramprasad/wire',
     gallery: [
-      '/images/products/binding-wire-1.jpg',
+      'ramprasad/wire1',
+      'ramprasad/wire2',
+      'ramprasad/wire3'
+
     ],
     variantLabel: 'Choose gauge',
     variants: [
@@ -241,10 +249,11 @@ export const productDetails: ProductDetail[] = [
     uses: 'Roofing support, RCC accessories and finishing work',
     availability: 'Contact for current stock',
     related: ['tmt-steel', 'cement'],
-    image: '/images/products/roofing-accessories.jpg',
+    image: 'ramprasad/cover2',
     gallery: [
-      '/images/products/roofing-1.jpg',
-      '/images/products/roofing-2.jpg',
+      'ramprasad/cover',
+      'ramprasad/cover1',
+      'ramprasad/cover3',
     ],
     variantLabel: 'Choose item',
     variants: [
