@@ -86,69 +86,37 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 w-full overflow-x-hidden">
-      {/* =====================================================
-          UTILITY BAR
-      ====================================================== */}
-      {/* <div
-        className={`overflow-hidden bg-navy text-cream transition-[max-height,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-[max-height,opacity] ${
-          scrolled ? 'max-h-0 opacity-0' : 'max-h-10 opacity-100'
-        }`}
-      > */}
-        {/* <div className="w-full max-w-[1180px] mx-auto px-4 sm:px-6 md:px-12 h-9 flex items-center justify-between gap-3 font-mono text-[0.68rem] sm:text-[0.72rem] tracking-wide">
-          <div className="flex items-center gap-1.5 text-amber min-w-0">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber shrink-0 shadow-[0_0_0_3px_rgba(214,163,57,0.25)]" />
-            <span className="hidden sm:inline truncate">
-              Authorized Tata Tiscon Dealer
-            </span>
-            <span className="sm:hidden truncate">Tata Tiscon Dealer</span>
-          </div>
-
-          <div className="flex items-center gap-3 sm:gap-4 text-slate-mist shrink-0">
-            <span className="hidden md:inline-flex items-center gap-1.5">
-              <MapPin size={13} className="shrink-0 text-rust" />
-              Dosinga, Dhamara, Bhadrak
-            </span>
-
-            <ActionLink
-              kind="call"
-              className="inline-flex items-center gap-1.5 text-cream hover:text-amber transition-colors duration-300 whitespace-nowrap"
-            >
-              <Phone size={13} className="shrink-0" />
-              Call Now
-            </ActionLink>
-          </div>
-        </div>
-      </div> */}
-
-      {/* =====================================================
-          MAIN HEADER
-      ====================================================== */}
+      {/* CHANGED: relative z-[45] keeps the bar above the mobile menu overlay,
+          and when the menu is open the bar turns navy so the cross is visible */}
       <div
-        className={`border-b transition-[background-color,box-shadow,border-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-          scrolled
+        className={`relative z-[45] border-b transition-[background-color,box-shadow,border-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+          open
+            ? 'bg-navy border-transparent lg:bg-paper/95 lg:border-border'
+            : scrolled
             ? 'bg-paper/95 backdrop-blur-[14px] backdrop-saturate-[1.1] border-border shadow-[0_8px_28px_-18px_rgba(0,0,0,0.4)]'
             : 'bg-paper/90 backdrop-blur-[10px] backdrop-saturate-[1.1] border-border'
         }`}
       >
         <div
-          className={`w-full max-w-[1180px] mx-auto px-4 sm:px-6 md:px-12 flex items-center justify-between gap-2 sm:gap-6 transition-[height] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-[height] ${
+          className={`w-full max-w-[1600px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-14 flex items-center justify-between gap-2 sm:gap-6 transition-[height] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-[height] ${
             'h-[76px]'
           }`}
         >
-          {/* =================================================
-              LOGO — mirrors the real logo lockup:
-              bold navy "RAMPRASAD" over tracked orange
-              "— ENTERPRISES —" with the actual tagline
-          ================================================== */}
+          {/* LOGO */}
+          {/* CHANGED: left column — equal width to the right column on desktop */}
+          <div className="flex flex-1 min-w-0 lg:basis-0 lg:grow justify-start">
           <Link
             to="/"
-            className="inline-flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1 lg:flex-none group transition-transform duration-300 ease-out hover:-translate-y-[1px]"
+            className="inline-flex items-center gap-2.5 sm:gap-3 min-w-0 group transition-transform duration-300 ease-out hover:-translate-y-[1px]"
           >
             <Logomark scrolled={scrolled} />
 
             <div className="flex flex-col justify-center leading-none min-w-0">
+              {/* CHANGED: text turns cream on mobile while the menu is open */}
               <span
-                className={`font-display font-extrabold uppercase tracking-tight text-brand transition-[font-size] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                className={`font-display font-extrabold uppercase tracking-tight transition-[font-size,color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                  open ? 'text-cream lg:text-brand' : 'text-brand'
+                } ${
                   scrolled
                     ? 'text-[0.95rem] sm:text-[1.05rem]'
                     : 'text-[1.05rem] sm:text-[1.3rem]'
@@ -178,10 +146,9 @@ export function Header() {
               </span>
             </div>
           </Link>
+          </div>
 
-          {/* =================================================
-              DESKTOP NAVIGATION — sliding pill highlight
-          ================================================== */}
+          {/* DESKTOP NAVIGATION — now centered between the two equal columns */}
           <nav
             className="hidden lg:flex items-center gap-0.5 shrink-0"
             aria-label="Main navigation"
@@ -214,10 +181,9 @@ export function Header() {
             ))}
           </nav>
 
-          {/* =================================================
-              HEADER ACTIONS
-          ================================================== */}
-          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+          {/* HEADER ACTIONS */}
+          {/* CHANGED: right column — equal width to the logo column, content pushed to the right */}
+          <div className="flex items-center justify-end gap-1.5 sm:gap-2.5 shrink-0 lg:shrink lg:basis-0 lg:grow lg:gap-3">
             <ActionLink
               kind="call"
               className="hidden lg:inline-flex items-center gap-2 text-[0.85rem] font-semibold text-brand border border-border rounded-full px-4 py-2.5 hover:border-brand hover:-translate-y-[1px] transition-[border-color,transform] duration-300"
@@ -226,21 +192,21 @@ export function Header() {
               Call Now
             </ActionLink>
 
-            {/* WhatsApp button — unchanged icon/behavior, kept as-is */}
-            <ActionLink
-              kind="whatsapp"
-              className="inline-flex items-center gap-1.5 sm:gap-2 text-[0.78rem] sm:text-[0.85rem] font-semibold text-cream bg-rust px-3 sm:px-[18px] py-2 sm:py-2.5 rounded-full shadow-[0_1px_0_rgba(255,255,255,0.12)_inset,0_6px_16px_-8px_rgba(181,69,29,0.55)] transition-[background-color,transform,box-shadow] duration-300 ease-out hover:bg-rust-dark hover:-translate-y-[1px] hover:shadow-[0_8px_20px_-10px_rgba(181,69,29,0.7)] whitespace-nowrap"
-            >
-              <MessageCircle size={14} className="shrink-0" />
-              <span className="hidden xs:inline sm:inline">WhatsApp</span>
-              <ArrowRight size={13} className="hidden sm:inline" />
-            </ActionLink>
+            {/* CHANGED: turns white only while the menu is open */}
+            <ThemeToggle
+              className={`hidden sm:inline-flex ${
+                open ? '!text-cream !border-white/30 [&_svg]:!text-cream' : ''
+              }`}
+            />
 
-            <ThemeToggle className="hidden sm:inline-flex" />
-
+            {/* CHANGED: menu / cross button turns light while the menu is open */}
             <button
               type="button"
-              className="lg:hidden inline-flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 border border-border rounded-full bg-transparent text-brand cursor-pointer transition-[border-color,transform] duration-300 hover:border-brand active:scale-95 shrink-0"
+              className={`lg:hidden inline-flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 border rounded-full bg-transparent cursor-pointer transition-[border-color,transform,color] duration-300 active:scale-95 shrink-0 ${
+                open
+                  ? 'border-white/30 text-cream hover:border-cream'
+                  : 'border-border text-brand hover:border-brand'
+              }`}
               aria-label={open ? 'Close menu' : 'Open menu'}
               aria-expanded={open}
               onClick={() => setOpen((current) => !current)}
@@ -251,9 +217,7 @@ export function Header() {
         </div>
       </div>
 
-      {/* =====================================================
-          MOBILE MENU
-      ====================================================== */}
+      {/* MOBILE MENU */}
       <div
         className={`fixed inset-x-0 top-0 bottom-0 z-[39] bg-navy overflow-hidden transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-[opacity,transform] lg:hidden ${
           open
@@ -326,7 +290,8 @@ export function Header() {
               open ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
             }`}
           >
-            <ThemeToggle className="self-start" />
+            {/* CHANGED: force white icon/border on the navy menu background */}
+            <ThemeToggle className="self-start !text-cream !border-white/30 [&_svg]:!text-cream" />
 
             <ActionLink
               kind="call"
