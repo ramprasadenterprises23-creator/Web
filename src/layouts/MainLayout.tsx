@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { MessageCircle, Phone } from 'lucide-react';
+import { MessageCircle} from 'lucide-react';
 
 import { ActionLink } from '../components/common/ActionLink';
 import { Footer } from '../components/layout/Footer';
@@ -36,39 +36,18 @@ export function MainLayout({ children }: MainLayoutProps) {
 
       <Footer />
 
-      <BackToTop />
+            <BackToTop />
 
-      {/* Desktop / tablet: floating WhatsApp button */}
+      {/* Floating WhatsApp button (all screen sizes) */}
       <ActionLink
         kind="whatsapp"
         aria-label="Chat with us on WhatsApp"
         data-no-print
-        className="fixed right-5 bottom-5 z-50 hidden sm:inline-flex items-center gap-2 bg-rust text-primary-foreground px-5 py-3.5 rounded-full text-[0.85rem] font-semibold shadow-[0_8px_24px_rgba(0,0,0,0.35)] transition-transform hover:-translate-y-0.5 hover:bg-rust-dark"
+        className="fixed right-5 bottom-5 z-50 inline-flex items-center gap-2 bg-rust text-primary-foreground px-5 py-3.5 rounded-full text-[0.85rem] font-semibold shadow-[0_8px_24px_rgba(0,0,0,0.35)] transition-transform hover:-translate-y-0.5 hover:bg-rust-dark"
       >
         <MessageCircle size={16} aria-hidden="true" />
         WhatsApp
       </ActionLink>
-
-      {/* Mobile: one-tap Call / WhatsApp bar (most local leads come from phones) */}
-      <div
-        data-no-print
-        className="fixed inset-x-0 bottom-0 z-50 grid grid-cols-2 gap-px border-t border-border-dark bg-border-dark sm:hidden pb-[env(safe-area-inset-bottom)]"
-      >
-        <ActionLink
-          kind="call"
-          className="flex items-center justify-center gap-2 bg-charcoal py-3.5 text-[0.9rem] font-semibold text-cream"
-        >
-          <Phone size={16} className="text-amber" aria-hidden="true" />
-          Call
-        </ActionLink>
-        <ActionLink
-          kind="whatsapp"
-          className="flex items-center justify-center gap-2 bg-rust py-3.5 text-[0.9rem] font-semibold text-primary-foreground"
-        >
-          <MessageCircle size={16} aria-hidden="true" />
-          WhatsApp
-        </ActionLink>
-      </div>
     </div>
   );
 }
