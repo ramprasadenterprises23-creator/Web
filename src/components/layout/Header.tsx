@@ -13,7 +13,9 @@ import {
 import { ActionLink } from '../common/ActionLink';
 import { ThemeToggle } from '../common/ThemeToggle';
 import { lockScroll } from '../../lib/smoothScroll';
+
 import logo from '../../assets/ChatGPT_Image_Jul_3__2026__08_23_18_PM-removebg-preview.png';
+import logoDark from '../../assets/Ramprasad Enterprises Dark Mode Logo.png';
 
 const navigation = [
   { label: 'Home', path: '/' },
@@ -31,14 +33,20 @@ function Logomark({ scrolled }: { scrolled: boolean }) {
       style={{ transform: scrolled ? 'scale(0.86)' : 'scale(1)' }}
     >
       <div className="rounded-full border border-border bg-paper p-[3px] shadow-[0_1px_0_rgba(255,255,255,0.4)_inset,0_6px_16px_-10px_rgba(0,0,0,0.35)]">
-        <div className="w-11 h-11 sm:w-[54px] sm:h-[54px] rounded-full overflow-hidden bg-paper flex items-center justify-center">
-          <img
-            src={logo}
-            alt="Ramprasad Enterprises"
-            className="w-full h-full object-contain"
-          />
-        </div>
-      </div>
+  <div className="w-11 h-11 sm:w-[54px] sm:h-[54px] rounded-full overflow-hidden bg-paper flex items-center justify-center">
+    <img
+      src={logo}
+      alt="Ramprasad Enterprises"
+      className="w-full h-full object-contain dark:hidden"
+    />
+    <img
+      src={logoDark}
+      alt=""
+      aria-hidden="true"
+      className="w-full h-full object-contain hidden dark:block"
+    />
+  </div>
+</div>
 
       <span className="absolute -bottom-0.5 -right-0.5 flex items-center justify-center w-4 h-4 rounded-full bg-rust border-2 border-paper">
         <ShieldCheck size={9} className="text-primary-foreground" strokeWidth={3} />

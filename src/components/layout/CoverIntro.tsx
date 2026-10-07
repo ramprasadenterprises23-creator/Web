@@ -17,12 +17,13 @@ const highlights: Highlight[] = [
 
 type Props = {
   photo: string; // owner / shop / aspirational photo
-  logo: string;
+  logo: string; // logo for light mode
+  logoDark: string; // logo for dark mode
   offset?: number;
   children: ReactNode;
 };
 
-export function CoverIntro({ photo, logo, offset = 76, children }: Props) {
+export function CoverIntro({ photo, logo, logoDark, offset = 76, children }: Props) {
   const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -90,7 +91,17 @@ export function CoverIntro({ photo, logo, offset = 76, children }: Props) {
               <div className="flex items-center gap-4">
                 <div className="shrink-0 rounded-full border border-white/20 bg-paper p-1 shadow-xl">
                   <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-full bg-paper md:h-24 md:w-24">
-                    <img src={logo} alt="Ramprasad Enterprises logo" className="h-full w-full object-contain" />
+                    <img
+                      src={logo}
+                      alt="Ramprasad Enterprises logo"
+                      className="h-full w-full object-contain dark:hidden"
+                    />
+                    <img
+                      src={logoDark}
+                      alt=""
+                      aria-hidden="true"
+                      className="hidden h-full w-full object-contain dark:block"
+                    />
                   </div>
                 </div>
                 <h1 className="font-display font-extrabold uppercase leading-[1.02] tracking-tight text-[clamp(1.9rem,5.4vw,4rem)]">

@@ -21,6 +21,7 @@ import { TrustStrip } from '../components/sections/TrustStrip';
 
 import { CoverIntro } from '../components/layout/CoverIntro';
 import logo from '../assets/ChatGPT_Image_Jul_3__2026__08_23_18_PM-removebg-preview.png';
+import logoDark from '../assets/Ramprasad Enterprises Dark Mode Logo.png';
 import coverPhoto from '../assets/e1902c4e-7c55-4934-9e22-3cf02bdb61e4.webp';
 import tiscon from '../assets/tata-tiscon.webp';
 
@@ -135,7 +136,7 @@ export function Home() {
 
       {/* Blue landing screen (first view). Everything below slides up over it.
           offset must equal the header height (h-[76px] in Header.tsx). */}
-      <CoverIntro photo={coverPhoto} logo={logo} offset={76}>
+      <CoverIntro photo={coverPhoto} logo={logo} logoDark={logoDark} offset={76}>
         {/* Hero */}
         <section className="relative py-16 pb-[92px] border-b border-border overflow-hidden before:content-[''] before:absolute before:inset-0 before:bg-[linear-gradient(var(--color-border)_1px,transparent_1px),linear-gradient(90deg,var(--color-border)_1px,transparent_1px)] before:bg-[length:44px_44px] before:[mask-image:radial-gradient(ellipse_70%_60%_at_78%_30%,black_0%,transparent_72%)] before:opacity-70 before:pointer-events-none">
           <Aurora />
