@@ -22,8 +22,20 @@ import { TrustStrip } from '../components/sections/TrustStrip';
 import { CoverIntro } from '../components/layout/CoverIntro';
 import logo from '../assets/ChatGPT_Image_Jul_3__2026__08_23_18_PM-removebg-preview.png';
 import logoDark from '../assets/Ramprasad Enterprises Dark Mode Logo.png';
-import coverPhoto from '../assets/e1902c4e-7c55-4934-9e22-3cf02bdb61e4.webp';
+import coverPhoto from '../assets/e1902c4e-7c55-4934-9e22-3cf02bdb61e4.png';
+
+
+import { ImageSlider } from '..//components/common/ImageSlider';
+
 import tiscon from '../assets/tata-tiscon.webp';
+import photo2 from '../assets/your-second-photo.webp';
+import photo3 from '../assets/your-third-photo.webp';
+
+const heroSlides = [
+  { src: tiscon, alt: 'Tata Tiscon TMT steel bars' },
+  { src: photo2, alt: 'Describe photo 2' },
+  { src: photo3, alt: 'Describe photo 3' },
+];
 
 
 import { productDetails } from '../data/productDetails';
@@ -201,14 +213,12 @@ export function Home() {
               className="relative"
               aria-label="Illustration of construction materials"
             >
+
+              
+
+
               <div className="relative bg-charcoal rounded-md p-7 text-cream shadow-[0_1px_0_rgba(255,255,255,0.04)_inset,0_30px_60px_-25px_rgba(0,0,0,0.5)] before:content-[''] before:absolute before:w-5 before:h-5 before:border-2 before:border-rust before:top-3 before:left-3 before:border-r-0 before:border-b-0 after:content-[''] after:absolute after:w-5 after:h-5 after:border-2 after:border-rust after:bottom-3 after:right-3 after:border-l-0 after:border-t-0">
-                <img
-                  src={tiscon}
-                  alt="Tata Tiscon TMT steel bars"
-                  className="w-full h-auto object-cover rounded"
-                  loading="lazy"
-                  decoding="async"
-                />
+                <ImageSlider slides={heroSlides} />
 
                 <span className="relative z-[1] flex items-center gap-2 font-mono text-[0.78rem] text-amber mb-[22px] mt-[22px] before:content-[''] before:w-1.5 before:h-1.5 before:rounded-full before:bg-amber before:shadow-[0_0_0_3px_rgba(214,163,57,0.25)]">
                   A considered supply
